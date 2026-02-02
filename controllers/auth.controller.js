@@ -82,12 +82,20 @@ exports.register = async (req, res) => {
       .select()
       .single();
 
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1h",
+      },
+    );
 
     res.json({ token });
   } catch (error) {
     res.status(500).json({ message: "Server error" });
   }
 };
+
